@@ -4,7 +4,8 @@
   "scripts": {
     "start:dev": "lerna run start",
     "bootstrap": "lerna bootstrap",
-    "clean": "lerna clean --yes"
+    "clean": "lerna clean --yes",
+    "build": "lerna run build"
   },
   "workspaces": [
     "packages/*"
