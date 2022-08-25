@@ -1,6 +1,6 @@
 name: Feature Request
 description: Submit a proposal for a new feature
-labels: ["type: feature request"]
+labels: ["feature request"]
 body:
   - type: markdown
     attributes:
