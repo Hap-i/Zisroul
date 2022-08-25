@@ -8,11 +8,11 @@ You can ask questions, consult with more experienced Zisroul users, and discuss 
 
 ## Found a bug?
 
-If you find a bug in the source code, you can help us by [submitting an issue](https://github.com/Zisroul/Zisroul/issues/new) to our GitHub Repository. Even better, you can submit a Pull Request with a fix.
+If you find a bug in the source code, you can help us by [submitting an issue](https://github.com/Zisroul/Zisroul/issues/new?assignees=&labels=bug&template=bug.yaml&title=%F0%9F%90%9B+Bug+Report%3A+) to our GitHub Repository. Even better, you can submit a Pull Request with a fix.
 
 ## Missing a feature?
 
-You can request a new feature by [submitting an issue](https://github.com/Zisroul/Zisroul/issues/new) to our GitHub Repository.
+You can request a new feature by [submitting an issue](https://github.com/Zisroul/Zisroul/issues/new?assignees=&labels=feature+request&template=feature.yaml) to our GitHub Repository.
 
 If you'd like to implement a new feature, it's always good to be in touch with us before you invest time and effort, since not all features can be supported.
 
