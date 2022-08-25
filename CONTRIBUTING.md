@@ -156,6 +156,6 @@ fix(server): missing entity on init
 
 Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
-[Code of Conduct](https://github.com/Zisroul/Zisroul/blob/main/CODE_OF_CONDUCt.md)
+[Code of Conduct](https://github.com/Zisroul/Zisroul/blob/main/CODE_OF_CONDUCT.md)
 
 Our Code of Conduct means that you are responsible for treating everyone on the project with respect and courtesy.
