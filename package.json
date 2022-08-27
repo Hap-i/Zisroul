@@ -2,10 +2,10 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "start:dev": "lerna run start",
+    "start:dev": "lerna run start --ignore server-template",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
-    "build": "lerna run build"
+    "build": "lerna run --ignore server-template --sort --include-dependencies build"
   },
   "workspaces": [
     "packages/*"
