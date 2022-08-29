@@ -1,18 +1,16 @@
-import { astFilePrinter } from '../../../util/ast-printer';
+// import { astFilePrinter } from '../../../util/ast-printer';
 import {
   addClass,
   addDecorators,
   addImport,
   addPropertyAssignment,
 } from '../../../util/ast';
-import { InputSchemaInfo } from 'util/custom-types';
+import { InputImport, InputSchemaInfo } from '../../../util/custom-types';
 import {
   addDocumentExport,
   addSchemaExport,
   addSchemaProperty,
 } from './ast-schema';
-import ts from 'typescript';
-import { keywordType } from '../../../util/ast-enums';
 
 const DEFAULT_IMPORTS = [
   {
@@ -27,9 +25,11 @@ const DEFAULT_IMPORTS = [
   },
 ];
 
-// schema export
-
-export function createSchmea(modelName: string, fieldsInfo: InputSchemaInfo[]) {
+export function createSchmea(
+  modelName: string,
+  fieldsInfo: InputSchemaInfo[],
+  importsInfo: InputImport[],
+) {
   const nodes = [];
   DEFAULT_IMPORTS.forEach((item) => {
     const node = addImport(
@@ -39,7 +39,16 @@ export function createSchmea(modelName: string, fieldsInfo: InputSchemaInfo[]) {
     );
     nodes.push(node);
   });
-  //TODO: Depency imports
+
+  importsInfo.forEach((importInfo) => {
+    nodes.push(
+      addImport(
+        importInfo.importItems,
+        importInfo.importFrom,
+        importInfo.defaultImport,
+      ),
+    );
+  });
 
   const schemaBaseProperties = [addPropertyAssignment('timestamp', true)];
   const modelDecorators = [addDecorators('Schema', schemaBaseProperties)];
@@ -59,6 +68,8 @@ export function createSchmea(modelName: string, fieldsInfo: InputSchemaInfo[]) {
   return nodes;
 }
 
+/* Example --
+
 const fieldsInfo = [
   {
     fieldName: 'name',
@@ -71,6 +82,13 @@ const fieldsInfo = [
     ],
   },
 ];
-const nodes = createSchmea('Account', fieldsInfo);
+const importsInfo = [
+  {
+    importItems: ['User'],
+    importFrom: 'src/user/schema.ts',
+    defaultImport: undefined,
+  },
+];
+const nodes = createSchmea('Account', fieldsInfo, importsInfo);
 
-astFilePrinter(nodes);
+astFilePrinter(nodes); */

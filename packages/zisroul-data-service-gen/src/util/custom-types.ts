@@ -1,4 +1,3 @@
-import { KeywordTypeSyntaxKind } from 'typescript';
 import { keywordType } from './ast-enums';
 
 export type Module = {
@@ -15,4 +14,10 @@ export type InputSchemaInfo = {
   fieldName: string;
   fieldType: string | keywordType;
   fieldProperties: SchemaProperty[];
+};
+
+export type InputImport = {
+  importItems: string[];
+  importFrom: string;
+  defaultImport: string | undefined;
 };
