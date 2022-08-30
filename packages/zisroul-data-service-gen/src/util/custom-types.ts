@@ -5,7 +5,7 @@ export type Module = {
   code: string;
 };
 
-export type SchemaProperty = {
+export type InputArguments = {
   name: string;
   type: string | boolean | undefined;
 };
@@ -13,11 +13,22 @@ export type SchemaProperty = {
 export type InputSchemaInfo = {
   fieldName: string;
   fieldType: string | keywordType;
-  fieldProperties: SchemaProperty[];
+  fieldProperties: InputArguments[];
 };
 
 export type InputImport = {
   importItems: string[];
   importFrom: string;
   defaultImport: string | undefined;
+};
+
+export type InputDecorator = {
+  name: string;
+  arguments: InputArguments[] | [];
+};
+
+export type InputPropertyDeclaration = {
+  decorators: InputDecorator[];
+  name: string;
+  type: string | keywordType;
 };

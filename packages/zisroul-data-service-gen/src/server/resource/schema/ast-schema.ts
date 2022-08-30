@@ -1,6 +1,6 @@
 import { factory } from 'typescript';
 import * as ts from 'typescript';
-import { SchemaProperty } from '../../../util/custom-types';
+import { InputArguments } from '../../../util/custom-types';
 // import { keywordType } from './../../../util/ast-enums';
 import { addDecorators, addPropertyAssignment } from '../../../util/ast';
 import { keywordType } from 'util/ast-enums';
@@ -19,34 +19,34 @@ export const objectIdSchemaProperty = factory.createPropertyAssignment(
   ),
 );
 
-export function addSchemaProperty(
-  propertyName: string,
-  propertyType: string | keywordType,
-  schemaProperties: SchemaProperty[],
-): ts.PropertyDeclaration {
-  const properties = [];
-  schemaProperties.forEach((property) => {
-    if (property.name === 'ObjectId') properties.push(objectIdSchemaProperty);
-    else properties.push(addPropertyAssignment(property.name, property.type));
-  });
+// export function addSchemaProperty(
+//   propertyName: string,
+//   propertyType: string | keywordType,
+//   schemaProperties: InputArguments[],
+// ): ts.PropertyDeclaration {
+//   const properties = [];
+//   schemaProperties.forEach((property) => {
+//     if (property.name === 'ObjectId') properties.push(objectIdSchemaProperty);
+//     else properties.push(addPropertyAssignment(property.name, property.type));
+//   });
 
-  const decorators = [addDecorators('Prop', properties)];
-  return factory.createPropertyDeclaration(
-    decorators,
-    undefined,
-    factory.createIdentifier(propertyName),
-    undefined,
-    typeof propertyType === 'string'
-      ? factory.createTypeReferenceNode(
-          factory.createIdentifier(propertyType),
-          undefined,
-        )
-      : factory.createKeywordTypeNode(
-          propertyType as unknown as ts.KeywordTypeSyntaxKind,
-        ),
-    undefined,
-  );
-}
+//   const decorators = [addDecorators('Prop', properties)];
+//   return factory.createPropertyDeclaration(
+//     decorators,
+//     undefined,
+//     factory.createIdentifier(propertyName),
+//     undefined,
+//     typeof propertyType === 'string'
+//       ? factory.createTypeReferenceNode(
+//           factory.createIdentifier(propertyType),
+//           undefined,
+//         )
+//       : factory.createKeywordTypeNode(
+//           propertyType as unknown as ts.KeywordTypeSyntaxKind,
+//         ),
+//     undefined,
+//   );
+// }
 
 export function addDocumentExport(modelName: string): ts.TypeAliasDeclaration {
   return factory.createTypeAliasDeclaration(

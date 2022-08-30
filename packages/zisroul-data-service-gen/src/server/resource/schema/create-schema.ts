@@ -1,16 +1,18 @@
-// import { astFilePrinter } from '../../../util/ast-printer';
+import { astFilePrinter } from '../../../util/ast-printer';
+import { keywordType } from '../../../util/ast-enums';
 import {
   addClass,
   addDecorators,
   addImport,
-  addPropertyAssignment,
+  addPropertyDeclaration,
 } from '../../../util/ast';
-import { InputImport, InputSchemaInfo } from '../../../util/custom-types';
 import {
-  addDocumentExport,
-  addSchemaExport,
-  addSchemaProperty,
-} from './ast-schema';
+  InputArguments,
+  InputDecorator,
+  InputImport,
+  InputPropertyDeclaration,
+} from '../../../util/custom-types';
+import { addDocumentExport, addSchemaExport } from './ast-schema';
 
 const DEFAULT_IMPORTS = [
   {
@@ -27,8 +29,8 @@ const DEFAULT_IMPORTS = [
 
 export function createSchmea(
   modelName: string,
-  fieldsInfo: InputSchemaInfo[],
   importsInfo: InputImport[],
+  propertyData: InputPropertyDeclaration[],
 ) {
   const nodes = [];
   DEFAULT_IMPORTS.forEach((item) => {
@@ -49,18 +51,21 @@ export function createSchmea(
       ),
     );
   });
-
-  const schemaBaseProperties = [addPropertyAssignment('timestamp', true)];
-  const modelDecorators = [addDecorators('Schema', schemaBaseProperties)];
+  const schemaBasePropertyArgument: InputArguments[] = [
+    {
+      name: 'timestamp',
+      type: true,
+    },
+  ];
+  const decoratorInfo: InputDecorator = {
+    name: 'Schema',
+    arguments: schemaBasePropertyArgument,
+  };
+  const modelDecorators = [addDecorators(decoratorInfo)];
   const members = [];
-  fieldsInfo.forEach((field) => {
-    members.push(
-      addSchemaProperty(
-        field.fieldName,
-        field.fieldType,
-        field.fieldProperties,
-      ),
-    );
+
+  propertyData.forEach((property) => {
+    members.push(addPropertyDeclaration(property));
   });
   nodes.push(addClass(modelDecorators, modelName, members));
   nodes.push(addDocumentExport(modelName));
@@ -68,16 +73,25 @@ export function createSchmea(
   return nodes;
 }
 
-/* Example --
+/* Example -- 
 
-const fieldsInfo = [
+const propertyData: InputPropertyDeclaration[] = [
   {
-    fieldName: 'name',
-    fieldType: keywordType.BOOLEAN,
-    fieldProperties: [
+    name: 'title',
+    type: keywordType.STRING,
+    decorators: [
       {
-        name: 'required',
-        type: true,
+        name: 'Prop',
+        arguments: [
+          {
+            name: 'required',
+            type: true,
+          },
+        ],
+      },
+      {
+        name: 'ApiProperty',
+        arguments: [],
       },
     ],
   },
@@ -89,6 +103,6 @@ const importsInfo = [
     defaultImport: undefined,
   },
 ];
-const nodes = createSchmea('Account', fieldsInfo, importsInfo);
+const nodes = createSchmea('Account', importsInfo, propertyData);
 
 astFilePrinter(nodes); */
