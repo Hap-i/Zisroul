@@ -10,6 +10,7 @@ Zisroul is an open‑source development tool. It helps you develop quality Node.
 
 ## Roadmap
 
+- [ ]  Rest Api
 - [ ]  Admin UI (Content Management Suppoert)
 - [ ]  GraphQl
 - [ ]  CQRS
