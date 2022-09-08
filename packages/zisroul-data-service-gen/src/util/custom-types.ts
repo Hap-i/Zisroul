@@ -32,3 +32,17 @@ export type InputPropertyDeclaration = {
   name: string;
   type: string | keywordType;
 };
+
+export type InputMethodDeclaration = {
+  name: string;
+};
+
+export type InputParameterDeclaration = {
+  name: string;
+  type: string;
+  modifiers: keywordType[];
+};
+
+export type InputConstructorDeclaration = {
+  parameters: InputParameterDeclaration[];
+};

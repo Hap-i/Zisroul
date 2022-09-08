@@ -2,10 +2,14 @@ import { factory, ImportSpecifier } from 'typescript';
 import * as ts from 'typescript';
 import {
   InputArguments,
+  InputConstructorDeclaration,
   InputDecorator,
+  InputMethodDeclaration,
+  InputParameterDeclaration,
   InputPropertyDeclaration,
 } from './custom-types';
 import { objectIdSchemaProperty } from './../server/resource/schema/ast-schema';
+import { keywordType } from './ast-enums';
 
 /* This function return import statement node */
 export function addImport(
@@ -117,3 +121,142 @@ export function addPropertyDeclaration(
     undefined,
   );
 }
+
+export function addConstructorDeclaration(
+  constructorInfo: InputConstructorDeclaration,
+) {
+  const parameters = [];
+  constructorInfo.parameters.forEach((parameter) => {
+    parameters.push(addParameterDeclaration(parameter));
+  });
+  return factory.createConstructorDeclaration(
+    undefined,
+    undefined,
+    parameters,
+    factory.createBlock([], false),
+  );
+}
+
+export function addModifier(keywordType: keywordType) {
+  return factory.createModifier(
+    keywordType as unknown as ts.ModifierSyntaxKind,
+  );
+}
+
+export function addParameterDeclaration(
+  parameterInfo: InputParameterDeclaration,
+) {
+  const modifiers = [];
+  parameterInfo.modifiers.forEach((modifier) => {
+    modifiers.push(addModifier(modifier));
+  });
+  return factory.createParameterDeclaration(
+    undefined,
+    modifiers,
+    undefined,
+    factory.createIdentifier(parameterInfo.name),
+    undefined,
+    factory.createTypeReferenceNode(
+      factory.createIdentifier(parameterInfo.type),
+      undefined,
+    ),
+    undefined,
+  );
+}
+
+// export function addMethodDeclaration(methodInfo: InputMethodDeclaration) {
+//   return factory.createMethodDeclaration(
+//     undefined,
+//     [factory.createModifier(ts.SyntaxKind.AsyncKeyword)],
+//     undefined,
+//     factory.createIdentifier(methodInfo.name),
+//     undefined,
+//     undefined,
+//     [],
+//     factory.createTypeReferenceNode(factory.createIdentifier('Promise'), [
+//       factory.createArrayTypeNode(
+//         factory.createTypeReferenceNode(
+//           factory.createIdentifier('Task'),
+//           undefined,
+//         ),
+//       ),
+//     ]),
+//     factory.createBlock(
+//       [
+//         factory.createReturnStatement(
+//           factory.createCallExpression(
+//             factory.createPropertyAccessExpression(
+//               factory.createPropertyAccessExpression(
+//                 factory.createThis(),
+//                 factory.createIdentifier('taskRepository'),
+//               ),
+//               factory.createIdentifier('find'),
+//             ),
+//             undefined,
+//             [factory.createObjectLiteralExpression([], false)],
+//           ),
+//         ),
+//       ],
+//       true,
+//     ),
+//   );
+// }
+
+// factory.createMethodDeclaration(
+//   undefined,
+//   [factory.createModifier(ts.SyntaxKind.AsyncKeyword)],
+//   undefined,
+//   factory.createIdentifier('getTaskById'),
+//   undefined,
+//   undefined,
+//   [
+//     factory.createParameterDeclaration(
+//       undefined,
+//       undefined,
+//       undefined,
+//       factory.createIdentifier('id'),
+//       undefined,
+//       factory.createTypeReferenceNode(
+//         factory.createIdentifier('uuid'),
+//         undefined,
+//       ),
+//       undefined,
+//     ),
+//   ],
+//   factory.createTypeReferenceNode(factory.createIdentifier('Promise'), [
+//     factory.createTypeReferenceNode(
+//       factory.createIdentifier('Task'),
+//       undefined,
+//     ),
+//   ]),
+//   factory.createBlock(
+//     [
+//       factory.createReturnStatement(
+//         factory.createAwaitExpression(
+//           factory.createCallExpression(
+//             factory.createPropertyAccessExpression(
+//               factory.createPropertyAccessExpression(
+//                 factory.createThis(),
+//                 factory.createIdentifier('taskRepository'),
+//               ),
+//               factory.createIdentifier('findOne'),
+//             ),
+//             undefined,
+//             [
+//               factory.createObjectLiteralExpression(
+//                 [
+//                   factory.createPropertyAssignment(
+//                     factory.createIdentifier('id'),
+//                     factory.createIdentifier('id'),
+//                   ),
+//                 ],
+//                 false,
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     ],
+//     true,
+//   ),
+// );
